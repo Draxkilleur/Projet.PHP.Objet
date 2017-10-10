@@ -36,6 +36,41 @@ class Database {
 	 */
 	private function createDataBase() {
 		/* TODO START */
+					$this->connection->exec("
+					CREATE DATABASE IF NOT EXISTS sondages CHARACTER SET 'utf8';
+
+					USE sondage;
+
+					CREATE TABLE `responses` (
+					  `id` int(5) NOT NULL,
+					  `id_survey` int(3) NOT NULL,
+					  `title` varchar(255) NOT NULL,
+					  `count` varchar(255) DEFAULT NULL
+					) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+					CREATE TABLE `surveys` (
+					  `id` int(5) NOT NULL,
+					  `owner` varchar(20) NOT NULL,
+					  `question` varchar(255) DEFAULT NULL
+					) ENGINE=InnoDB DEFAULT CHARSET=ut
+
+					CREATE TABLE `users` (
+					  `nickname` varchar(20) NOT NULL,
+					  `password` varchar(50) NOT NULL
+					) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+					ALTER TABLE `responses`
+					  ADD PRIMARY KEY (`id`);
+
+					ALTER TABLE `surveys`
+					  ADD PRIMARY KEY (`id`);
+
+					ALTER TABLE `responses`
+					  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6
+
+					ALTER TABLE `surveys`
+					  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+					");
 		/* TODO END */
 	}
 
