@@ -10,22 +10,19 @@ class Database {
 	 * Ouvre la base de données. Si la base n'existe pas elle
 	 * est créée à l'aide de la méthode createDataBase().
 	 */
-    public function __construct() {
-        $dbHost = "localhost";
-        $dbBd = "sondages";
-        $dbPass = "";
-        $dbLogin = "root";
-        $url = 'mysql:host='.$dbHost.';dbname='.$dbBd;
-        //$url = 'sqlite:database.sqlite';
-        try {
-            $this->connection = new PDO($url, $dbLogin, $dbPass);
-            $this->createDataBase();
-        }
-        catch(Exception $e)
-        {
-            die('Erreur : '.$e->getMessage());
-        }
-    }
+	public function __construct() {
+		$dbHost = "localhost";
+		$dbBd = "sondages";
+		$dbPass = "";
+		$dbLogin = "root";
+		$url = 'mysql:host='.$dbHost.';dbname='.$dbBd;
+		//$url = 'sqlite:database.sqlite';
+		$this->connection = new PDO($url, $dbLogin, $dbPass);
+		if (!$this->connection) die("impossible d'ouvrir la base de données");
+		$this->createDataBase();
+	}
+
+
 	/**
 	 * Initialise la base de données ouverte dans la variable $connection.
 	 * Cette méthode crée, si elles n'existent pas, les trois tables :
@@ -39,32 +36,32 @@ class Database {
 	 */
 	private function createDataBase() {
 		/* TODO START */
-					$this->connection->exec("
-					CREATE DATABASE IF NOT EXISTS sondages CHARACTER SET 'utf8';
+		$this->connection->exec("
+		CREATE DATABASE IF NOT EXISTS sondages CHARACTER SET 'utf8';
 
-					USE sondages;
+		USE sondages;
 
-					CREATE TABLE `responses` (
-					  `id` int(5) NOT NULL AUTO_INCREMENT,
-					  `id_survey` int(3) NOT NULL,
-					  `title` varchar(255) NOT NULL,
-					  `count` int(5) NOT NULL,
-					  PRIMARY KEY (id)
-					) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+		CREATE TABLE `responses` (
+			`id` int(5) NOT NULL AUTO_INCREMENT,
+			`id_survey` int(3) NOT NULL,
+			`title` varchar(255) NOT NULL,
+			`count` int(5) NOT NULL,
+			PRIMARY KEY (id)
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-					CREATE TABLE `surveys` (
-					  `id` int(5) NOT NULL AUTO_INCREMENT,
-					  `owner` varchar(20) NOT NULL,
-					  `question` varchar(255) NOT NULL,
-					  PRIMARY KEY (id)
-					) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+		CREATE TABLE `surveys` (
+			`id` int(5) NOT NULL AUTO_INCREMENT,
+			`owner` varchar(20) NOT NULL,
+			`question` varchar(255) NOT NULL,
+			PRIMARY KEY (id)
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-					CREATE TABLE `users` (
-					  `nickname` varchar(20) NOT NULL,
-					  `password` varchar(50) NOT NULL
-					) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+		CREATE TABLE `users` (
+			`nickname` varchar(20) NOT NULL,
+			`password` varchar(50) NOT NULL
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-					");
+		");
 		/* TODO END */
 	}
 
@@ -76,12 +73,12 @@ class Database {
 	 * @return boolean True si le pseudonyme est valide, false sinon.
 	 */
 	private function checkNicknameValidity($nickname) {
-        /* TODO START */
-	    if (strlen($nickname)>=3 && strlen($nickname)<=10 && is_string($nickname))
-	        return true;
-	    else {
-            return false;
-        }
+		/* TODO START */
+
+		if(strlen($nickname) <= 10 and strlen($nickname) >= 3 ){
+			 return true;
+		}
+		 return false;
 		/* TODO END */
 	}
 
@@ -94,11 +91,10 @@ class Database {
 	 */
 	private function checkPasswordValidity($password) {
 		/* TODO START */
-		if (strlen($password)>=3 && strlen($password)<=10)
-		    return true;
-		else{
-		    return false;
-        }
+		if(strlen($password) <= 10 and strlen($password) >= 3 ){
+			return true;
+		}
+		return false;
 		/* TODO END */
 	}
 
@@ -110,6 +106,15 @@ class Database {
 	 */
 	private function checkNicknameAvailability($nickname) {
 		/* TODO START */
+		$req = $this->connection->query("SELECT * FROM users");
+		while($req->fetch()){
+
+			if($req->fetch()['nickname'] == $nickname){
+				return false;
+
+			}
+		}
+		return true;
 
 		/* TODO END */
 	}
@@ -123,6 +128,11 @@ class Database {
 	 */
 	public function checkPassword($nickname, $password) {
 		/* TODO START */
+		$req = $this->connection->query("Select password from users where nickname='".$nickname."'");
+		if($req->fetch()['password'] == $password){
+			return true;
+		}
+		return false;
 		/* TODO END */
 	}
 
@@ -139,6 +149,21 @@ class Database {
 	 */
 	public function addUser($nickname, $password) {
 	  /* TODO START */
+		if($this->checkNicknameValidity($nickname) == false){
+			return "Le pseudo doit contenir entre 3 et 10 lettres.";
+		}
+		elseif($this->checkNicknameAvailability($nickname) == false){
+			return "Le pseudo existe déjà.";
+		}
+		elseif($this->checkPasswordValidity($password) == false){
+			return "Le mot de passe doit contenir entre 3 et 10 caractères.";
+		}
+		else{
+			$this->connection->exec("INSERT INTO users VALUES ('$nickname', '$password')");
+
+		}
+
+
 	  /* TODO END */
 	  return true;
 	}
