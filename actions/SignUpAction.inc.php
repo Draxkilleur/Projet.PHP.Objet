@@ -11,8 +11,8 @@ class SignUpAction extends Action {
 	 * Le compte est crée à l'aide de la méthode 'addUser' de la classe Database.
 	 *
 	 * Si la fonction 'addUser' retourne une erreur ou si le mot de passe et sa confirmation
-	 * sont différents, on envoie l'utilisateur vers la vue 'SignUpForm' contenant 
-	 * le message retourné par 'addUser' ou la chaîne "Le mot de passe et sa confirmation 
+	 * sont différents, on envoie l'utilisateur vers la vue 'SignUpForm' contenant
+	 * le message retourné par 'addUser' ou la chaîne "Le mot de passe et sa confirmation
 	 * sont différents.";
 	 *
 	 * Si l'inscription est validée, le visiteur est envoyé vers la vue 'MessageView' avec
@@ -22,6 +22,24 @@ class SignUpAction extends Action {
 	 */
 	public function run() {
 		/* TODO START */
+		$db = new Database;
+		if( $_POST['signUpPassword'] != $_POST['signUpPassword2']){										// On vérifie que le mot de passe et sa confirmation sont identiques
+			$this->setSignUpFormView("Le mot de passe et sa confirmation sont différents");
+		}
+		  $db->addUser($_POST['signUpLogin'],  $_POST['signUpPassword']);
+		if($db->addUser($_POST['signUpLogin'],  $_POST['signUpPassword']) != 1){
+			$this->setSignUpFormView($db->addUser($_POST['signUpLogin'],  $_POST['signUpPassword']));
+		}
+		else{
+			$this->setView(getViewByName("Message"));
+			$this->getView()->setMessage("Vous êtes à présent enregistré, veuillez vous connecter");
+		}
+
+		 	//On fait appel a AddUser pour ajouter a la base de données l'utilisateur
+
+
+
+
 		/* TODO END */
 	}
 
