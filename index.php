@@ -18,7 +18,7 @@ function getAction() {
 	else $action = $_REQUEST['action'];
 
 	$actions = array('Default',
-			/*'SignUpForm',
+			'SignUpForm',
 			'SignUp',
 			'Logout',
 			'Login',
@@ -40,4 +40,3 @@ $view = $action->getView();
 $action->getView()->setLogin($action->getSessionLogin());
 $view->run();
 ?>
-
