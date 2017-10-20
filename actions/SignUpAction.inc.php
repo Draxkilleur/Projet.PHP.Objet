@@ -21,19 +21,22 @@ class SignUpAction extends Action {
 	 */
 	public function run() {
 		/* TODO START */
-
+		$db = new Database;
 		if( $_POST['signUpPassword'] != $_POST['signUpPassword2']){										// On vérifie que le mot de passe et sa confirmation sont identiques
 			$this->setSignUpFormView("Le mot de passe et sa confirmation sont différents");
 		}
-		if($this->database->addUser($_POST['signUpLogin'],  $_POST['signUpPassword']) == false){
-			$this->setSignUpFormView($this->database->addUser($_POST['signUpLogin'],  $_POST['signUpPassword']));
+			$db->addUser($_POST['signUpLogin'],  $_POST['signUpPassword']);
+		if($db->addUser($_POST['signUpLogin'],  $_POST['signUpPassword']) != 1){
+			$this->setSignUpFormView($db->addUser($_POST['signUpLogin'],  $_POST['signUpPassword']));
 		}
 		else{
 			$this->setView(getViewByName("Message"));
 			$this->getView()->setMessage("Vous êtes à présent enregistré, veuillez vous connecter");
 		}
 
-		 	//On fait appel a AddUser pour ajouter a la base de données l'utilisateur
+			//On fait appel a AddUser pour ajouter a la base de données l'utilisateur
+
+
 		/* TODO END */
 	}
 
