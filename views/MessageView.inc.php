@@ -11,6 +11,5 @@ class MessageView extends View {
 	public function displayBody() { 
 		echo '<div class="container"><br>br><br><br><div style="text-align:center" class="alert '.$this->style.'">'.$this->message.'</div></div>';
 	}
-
 }
 ?>

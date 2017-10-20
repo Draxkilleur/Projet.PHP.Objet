@@ -9,11 +9,11 @@ class SignUpAction extends Action {
 	 *
 	 * Le compte est crée à l'aide de la méthode 'addUser' de la classe Database.
 	 *
-	 * Si la fonction 'addUser' retourne une erreur ou si le mot de passe et sa confirmation
-	 * sont différents, on envoie l'utilisateur vers la vue 'SignUpForm' contenant
-	 * le message retourné par 'addUser' ou la chaîne "Le mot de passe et sa confirmation
-	 * sont différents.";
 	 *
+     * Si la fonction 'addUser' retourne une erreur ou si le mot de passe et sa confirmation
+     * sont différents, on envoie l'utilisateur vers la vue 'SignUpForm' contenant
+     * le message retourné par 'addUser' ou la chaîne "Le mot de passe et sa confirmation
+     * sont différents.";
 	 * Si l'inscription est validée, le visiteur est envoyé vers la vue 'MessageView' avec
 	 * un message confirmant son inscription.
 	 *
@@ -22,11 +22,13 @@ class SignUpAction extends Action {
 	public function run() {
 		/* TODO START */
 
-		if( $_POST['signUpPassword'] != $_POST['signUpPassword2']){										// On vérifie que le mot de passe et sa confirmation sont identiques
-			$this->setSignUpFormView("Le mot de passe et sa confirmation sont différents");
+		if( $_POST['signUpPassword'] != $_POST['signUpPassword2']){	// On vérifie que le mot de passe et sa confirmation sont identiques
+            $this->setView(getViewByName("SignUpForm"));
+            $this->getView()->setMessage("Les mots de passe ne correspondent pas.",'alert-error');
 		}
-		if($this->database->addUser($_POST['signUpLogin'],  $_POST['signUpPassword']) == false){
-			$this->setSignUpFormView($this->database->addUser($_POST['signUpLogin'],  $_POST['signUpPassword']));
+		elseif ($this->database->addUser($_POST['signUpLogin'], $_POST['signUpPassword'])!= 1){
+            $this->setView(getViewByName("SignUpForm"));
+            $this->getView()->setMessage($this->database->addUser($_POST['signUpLogin'], $_POST['signUpPassword'], 'alert-error'));
 		}
 		else{
 			$this->setView(getViewByName("Message"));
