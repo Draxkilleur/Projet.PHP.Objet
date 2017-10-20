@@ -22,6 +22,16 @@ class UpdateUserAction extends Action {
 	 */
 	public function run() {
 		/* TODO START */
+		if ($_POST['updatePassword'] != $_POST['updatePassword2']){
+			return "Les mots de passe ne correspondent pas.";
+		}
+		else{
+            if ($this->database->updateUser($_SESSION['login'], $_POST['updatePassword'])){
+                $this->setView(getViewByName("Message"));
+                $this->getView()->setMessage("Mot de passe modifié");
+            }
+		}
+
 		/* TODO END */
 	}
 

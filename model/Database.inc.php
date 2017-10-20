@@ -128,8 +128,9 @@ class Database {
 	 */
 	public function checkPassword($nickname, $password) {
 		/* TODO START */
-		$req = $this->connection->query("Select password from users where nickname='".$nickname."'");
-		if($req->fetch()['password'] == $password){
+		$req = $this->connection->query("SELECT password FROM users WHERE nickname='".$nickname."'");
+		$mdp = $req->fetchAll();
+		if($mdp[0]['password'] == md5($password)){
 			return true;
 		}
 		return false;
@@ -159,7 +160,7 @@ class Database {
 			return "Le mot de passe doit contenir entre 3 et 10 caractères.";
 		}
 		else{
-			$this->connection->exec("INSERT INTO users VALUES ('$nickname', '$password')");
+			$this->connection->exec("INSERT INTO users VALUES ('$nickname', '".md5($password)."')");
 
 		}
 
@@ -180,6 +181,12 @@ class Database {
 	 */
 	public function updateUser($nickname, $password) {
 		/* TODO START */
+		if ($this->checkPasswordValidity($password) == false){
+			return "Le mot de passe doit contenir entre 3 et 10 caractères.";
+		}
+		else{
+			$this->connection->exec("UPDATE users SET password ='".md5($password)."' WHERE nickname='".$nickname."'");
+		}
 		/* TODO END */
 	  return true;
 	}

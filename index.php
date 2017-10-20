@@ -18,17 +18,17 @@ function getAction() {
 	else $action = $_REQUEST['action'];
 
 	$actions = array('Default',
-			/*'SignUpForm',
-			'SignUp',
-			'Logout',
-			'Login',
-			'UpdateUserForm',
-			'UpdateUser',
-			'AddSurveyForm',
-			'AddSurvey',
-			'GetMySurveys',
-			'Search',
-			'Vote'*/);
+            'SignUpForm',
+            'SignUp',
+            'Logout',
+            'Login',
+            'UpdateUserForm',
+            'UpdateUser',
+            'AddSurveyForm',
+            'AddSurvey',
+            'GetMySurveys',
+            'Search',
+			'Vote');
 
 	if (!in_array($action, $actions)) $action = 'Default';
 	return getActionByName($action);

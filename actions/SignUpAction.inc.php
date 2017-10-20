@@ -3,7 +3,6 @@
 require_once("actions/Action.inc.php");
 
 class SignUpAction extends Action {
-
 	/**
 	 * Traite les données envoyées par le formulaire d'inscription
 	 * ($_POST['signUpLogin'], $_POST['signUpPassword'], $_POST['signUpPassword2']).
@@ -22,13 +21,12 @@ class SignUpAction extends Action {
 	 */
 	public function run() {
 		/* TODO START */
-		$db = new Database;
+
 		if( $_POST['signUpPassword'] != $_POST['signUpPassword2']){										// On vérifie que le mot de passe et sa confirmation sont identiques
 			$this->setSignUpFormView("Le mot de passe et sa confirmation sont différents");
 		}
-		  $db->addUser($_POST['signUpLogin'],  $_POST['signUpPassword']);
-		if($db->addUser($_POST['signUpLogin'],  $_POST['signUpPassword']) != 1){
-			$this->setSignUpFormView($db->addUser($_POST['signUpLogin'],  $_POST['signUpPassword']));
+		if($this->database->addUser($_POST['signUpLogin'],  $_POST['signUpPassword']) == false){
+			$this->setSignUpFormView($this->database->addUser($_POST['signUpLogin'],  $_POST['signUpPassword']));
 		}
 		else{
 			$this->setView(getViewByName("Message"));
@@ -36,10 +34,6 @@ class SignUpAction extends Action {
 		}
 
 		 	//On fait appel a AddUser pour ajouter a la base de données l'utilisateur
-
-
-
-
 		/* TODO END */
 	}
 

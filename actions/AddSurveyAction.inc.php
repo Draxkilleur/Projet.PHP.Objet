@@ -5,7 +5,6 @@ require_once("model/Response.inc.php");
 require_once("actions/Action.inc.php");
 
 class AddSurveyAction extends Action {
-
 	/**
 	 * Traite les données envoyées par le formulaire d'ajout de sondage.
 	 *
@@ -27,6 +26,16 @@ class AddSurveyAction extends Action {
 	 */
 	public function run() {
 		/* TODO START */
+		if ($_POST['questionSurvey'] = null){
+			$this->setAddSurveyFormView("La question est obligatoire.");
+		}
+		if ($_POST['responseSurvey1'] && $_POST['responseSurvey2'] = null){
+			$this->setAddSurveyFormView("Il faut saisir au minimum 2 réponses.");
+		}
+		else{
+			$this->setView(getViewByName('Message'));
+			$this->getView()->setMessage("Merci, nous avons ajouté votre sondage");
+		}
 		/* TODO END */
 	}
 

@@ -15,8 +15,7 @@ class LoginAction extends Action {
 	 */
 	public function run() {
   	/* TODO START */
-		$db = new Database;
-		if($db->checkPassword( $_POST['nickname'], $_POST['password']) == true){
+		if($this->database->checkPassword( $_POST['nickname'], $_POST['password']) == true){
 			$this->setSessionLogin($_POST['nickname']);
 			$this->setView(getViewByName("Message"));
 			$this->getView()->setMessage("Vous êtes désormais connecté");

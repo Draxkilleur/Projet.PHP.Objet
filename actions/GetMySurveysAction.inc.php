@@ -5,7 +5,7 @@ require_once("actions/Action.inc.php");
 class GetMySurveysAction extends Action {
 
 	/**
-	 * Construit la liste des sondages de l'utilisateur et le dirige vers la vue "ServeysView" 
+	 * Construit la liste des sondages de l'utilisateur et le dirige vers la vue "SurveysView"
 	 * de façon à afficher les sondages.
 	 *
 	 * Si l'utilisateur n'est pas connecté, un message lui demandant de se connecter est affiché.
@@ -14,6 +14,8 @@ class GetMySurveysAction extends Action {
 	 */
 	public function run() {
 		/* TODO START */
+$this->udpateUser();
+$this->setView(getViewB)
 		/* TODO END */
 	}
 
