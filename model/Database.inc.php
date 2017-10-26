@@ -200,6 +200,16 @@ class Database {
 	 */
 	public function saveSurvey($survey) {
 		/* TODO START */
+
+		$Question = $survey->getQuestion();
+
+		$Owner = $survey->getOwner();
+
+		$this->connection->exec("INSERT INTO surveys (owner, question) VALUES ('$Owner', '$Question')");
+		$req = $this->connection->query("Select id from surveys where owner = '$Owner' and question = '$Question'");
+		$idSurvey = $req->fetch();
+		$survey->setId($idSurvey['id']);
+		$this->saveResponse($survey);
 		/* TODO END */
 		return true;
 	}
@@ -212,6 +222,14 @@ class Database {
 	 */
 	private function saveResponse($response) {
 		/* TODO START */
+		$idSurvey = $response->getId();
+		foreach ($response->getResponses() as $key => $value) {
+			echo "<br/><br/><br/><br/>";
+			if($value != ""){
+				$this->connection->exec("INSERT INTO responses (id_survey, title, count) VALUES ('$idSurvey', '$value', 0)");
+			}
+
+		}
 		/* TODO END */
 		return true;
 	}

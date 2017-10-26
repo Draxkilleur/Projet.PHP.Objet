@@ -21,18 +21,21 @@ class AddSurveyAction extends Action {
 	 *
 	 * Le visiteur est finalement envoyé vers le formulaire d'ajout de sondage en cas d'erreur
 	 * ou vers une vue affichant le message "Merci, nous avons ajouté votre sondage.".
-	 * 
+	 *
 	 * @see Action::run()
 	 */
 	public function run() {
 		/* TODO START */
-		if ($_POST['questionSurvey'] = null){
-			$this->setAddSurveyFormView("La question est obligatoire.");
+		if ($_POST['questionSurvey'] == ""){
+			$this->setAddSurveyFormView("La question est obligatoire.", 'alert-error');
 		}
-		if ($_POST['responseSurvey1'] && $_POST['responseSurvey2'] = null){
-			$this->setAddSurveyFormView("Il faut saisir au minimum 2 réponses.");
+		elseif ($_POST['responseSurvey1'] == "" or $_POST['responseSurvey2'] == ""){
+			$this->setAddSurveyFormView("Il faut saisir au minimum 2 réponses.", 'alert-error');
 		}
 		else{
+			$surv = new Survey($this->getSessionLogin(), $_POST['questionSurvey']);
+			$surv->setResponses(array($_POST['responseSurvey1'], $_POST['responseSurvey2'], $_POST['responseSurvey3'], $_POST['responseSurvey4'], $_POST['responseSurvey5']));
+			$this->database->saveSurvey($surv);
 			$this->setView(getViewByName('Message'));
 			$this->getView()->setMessage("Merci, nous avons ajouté votre sondage");
 		}

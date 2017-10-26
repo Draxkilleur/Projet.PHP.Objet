@@ -14,8 +14,8 @@ class GetMySurveysAction extends Action {
 	 */
 	public function run() {
 		/* TODO START */
-$this->udpateUser();
-$this->setView(getViewB)
+ $this->udpateUser();
+$this->setView(getViewB);
 		/* TODO END */
 	}
 
