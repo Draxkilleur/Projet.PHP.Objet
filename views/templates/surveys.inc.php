@@ -6,7 +6,7 @@
 	<ul class="media-list">
 		<?php
 				foreach ($this->surveys as $survey) {
-					$survey->computePercentages();
+					$percent = $survey->computePercentages();
 					require("survey.inc.php");
 				}
 		?>

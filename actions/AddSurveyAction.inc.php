@@ -36,15 +36,14 @@ class AddSurveyAction extends Action {
 			$surv = new Survey($this->getSessionLogin(), $_POST['questionSurvey']);
 			$surv->setResponses(array($_POST['responseSurvey1'], $_POST['responseSurvey2'], $_POST['responseSurvey3'], $_POST['responseSurvey4'], $_POST['responseSurvey5']));
 			$this->database->saveSurvey($surv);
-			$this->setView(getViewByName('Message'));
-			$this->getView()->setMessage("Merci, nous avons ajouté votre sondage");
+			$this->setAddSurveyFormView("Merci, nous avons ajouté votre sondage");
 		}
 		/* TODO END */
 	}
 
 	private function setAddSurveyFormView($message) {
 		$this->setView(getViewByName("AddSurveyForm"));
-		$this->getView()->setMessage($message, "alert-error");
+		$this->getView()->setMessage($message);
 	}
 
 }

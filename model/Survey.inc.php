@@ -6,9 +6,9 @@ class Survey {
 	private $question;
 	private $responses;
 
-	public function __construct($owner, $question) {
+	public function __construct($owner_survey, $question) {
 		$this->id = null;
-		$this->owner = $owner;
+		$this->owner = $owner_survey;
 		$this->question = $question;
 		$this->responses = array();
 	}
@@ -43,6 +43,11 @@ class Survey {
 
 	public function computePercentages() {
 		/* TODO START */
+		$total=0;
+		foreach ($this->responses as $key => $values){
+			$total+=$values->getCount();
+		}
+		return $total;
 		/* TODO END */
 	}
 

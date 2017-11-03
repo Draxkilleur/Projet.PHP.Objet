@@ -14,8 +14,10 @@ class GetMySurveysAction extends Action {
 	 */
 	public function run() {
 		/* TODO START */
- $this->udpateUser();
-$this->setView(getViewB);
+		if ($this->getSessionLogin()!=null){
+            $this->setView(getViewByName("Surveys"));
+            $this->getView()->setSurveys($this->database->loadSurveysByOwner($this->getSessionLogin()));
+		}
 		/* TODO END */
 	}
 

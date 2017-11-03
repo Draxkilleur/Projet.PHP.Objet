@@ -106,15 +106,15 @@ class Database {
 	 */
 	private function checkNicknameAvailability($nickname) {
 		/* TODO START */
-		$req = $this->connection->query("SELECT * FROM users");
-		while($req->fetch()){
-
-			if($req->fetch()['nickname'] == $nickname){
-				return false;
-
-			}
+		$req = $this->connection->query("SELECT nickname FROM users WHERE nickname='".$nickname."'");
+		$req=$req->fetchAll();
+		if (count($req)!=0){
+			return false;
 		}
-		return true;
+		else{
+            return true;
+		}
+
 
 		/* TODO END */
 	}
@@ -224,7 +224,6 @@ class Database {
 		/* TODO START */
 		$idSurvey = $response->getId();
 		foreach ($response->getResponses() as $key => $value) {
-			echo "<br/><br/><br/><br/>";
 			if($value != ""){
 				$this->connection->exec("INSERT INTO responses (id_survey, title, count) VALUES ('$idSurvey', '$value', 0)");
 			}
@@ -242,7 +241,9 @@ class Database {
 	 */
 	public function loadSurveysByOwner($owner) {
 		/* TODO START */
-		/* TODO END */
+		$req = $this->connection->query("SELECT * FROM surveys WHERE owner='".$owner."'");
+		return $this->loadSurveys($req);
+        /* TODO END */
 	}
 
 	/**
@@ -278,6 +279,14 @@ class Database {
 	private function loadSurveys($arraySurveys) {
 		$surveys = array();
 		/* TODO START */
+		$result=$arraySurveys->fetchAll();
+		foreach ($result as $key => $values){
+			$survey=new Survey($values['owner'], $values['question']);
+			$survey->setId($values['id']);
+			$req=$this->connection->query("SELECT * FROM responses WHERE id_survey=".$values['id']."");
+			$survey->setResponses($this->loadResponses($survey, $req));
+			$surveys[]=$survey;
+		}
 		/* TODO END */
 		return $surveys;
 	}
@@ -293,6 +302,12 @@ class Database {
 	private function loadResponses($survey, $arrayResponses) {
 		$responses = array();
 		/* TODO START */
+        $result=$arrayResponses->fetchAll();
+        foreach ($result as $key => $values){
+            $response=new Response($survey, $values['title'], $values['count']);
+            $response->setId($values['id']);
+            $responses[] = $response;
+        }
 		/* TODO END */
 		return $responses;
 	}

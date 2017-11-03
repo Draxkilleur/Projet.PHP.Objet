@@ -4,7 +4,6 @@ require_once("views/View.inc.php");
 class SurveysView extends View {
 
 	private $surveys;
-
 	/**
 	 * Affiche la liste des sondages.
 	 *
@@ -13,7 +12,7 @@ class SurveysView extends View {
 	public function displayBody() {
 
 		if (count($this->surveys)===0) {
-			echo '<div class="container"><br>br><br><br><div style="text-align:center" class="alert">Aucun sondage ne correspond à votre demande.</div></div>';
+			echo '<div class="container"><br><br><br><br><div style="text-align:center" class="alert">Aucun sondage ne correspond à votre demande.</div></div>';
 			return;
 		}
 		

@@ -23,16 +23,14 @@ class SignUpAction extends Action {
 		/* TODO START */
 
 		if( $_POST['signUpPassword'] != $_POST['signUpPassword2']){	// On vérifie que le mot de passe et sa confirmation sont identiques
-            $this->setView(getViewByName("SignUpForm"));
-            $this->getView()->setMessage("Les mots de passe ne correspondent pas.",'alert-error');
+            $this->setSignUpFormView("Les mots de passe ne correspondent pas.",'alert-error');
 		}
 		elseif ($this->database->addUser($_POST['signUpLogin'], $_POST['signUpPassword'])!= 1){
             $this->setView(getViewByName("SignUpForm"));
             $this->getView()->setMessage($this->database->addUser($_POST['signUpLogin'], $_POST['signUpPassword'], 'alert-error'));
 		}
 		else{
-			$this->setView(getViewByName("Message"));
-			$this->getView()->setMessage("Vous êtes à présent enregistré, veuillez vous connecter");
+			$this->setSignUpFormView("Vous êtes à présent enregistré, veuillez vous connecter");
 		}
 
 		 	//On fait appel a AddUser pour ajouter a la base de données l'utilisateur

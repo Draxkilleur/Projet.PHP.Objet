@@ -22,7 +22,6 @@ abstract class Action {
 	protected function setView($view) {
 		$this->view = $view;
 	}
-
 	/**
 	 * Retourne la vue qui doit être affichée par le contrôleur.
 	 * 
@@ -31,7 +30,6 @@ abstract class Action {
 	public function getView() {
 		return $this->view;
 	}
-
 	/**
 	 * Récupére la pseudonyme de l'utilisateur s'il est connecté, ou null sinon.
 	 *
@@ -43,7 +41,6 @@ abstract class Action {
 		} else $login = null;
 		return $login;
 	}
-
 	/**
 	 * Sauvegarde le pseudonyme de l'utilisateur dans la session.
 	 *
@@ -52,7 +49,6 @@ abstract class Action {
 	protected function setSessionLogin($login) {
 		$_SESSION['login'] = $login;
 	}
-
 	/**
 	 * Fixe la vue de façon à afficher un message à l'utilisateur.
 	 * 
@@ -63,7 +59,6 @@ abstract class Action {
 		$this->setView(getViewByName("Message"));
 		$this->getView()->setMessage($message, $style);
 	}
-
 	/**
 	 * Méthode qui doit être implémentée par chaque action afin de décrire
 	 * son comportement.
