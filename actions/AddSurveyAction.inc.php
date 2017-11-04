@@ -43,7 +43,7 @@ class AddSurveyAction extends Action {
 
 	private function setAddSurveyFormView($message) {
 		$this->setView(getViewByName("AddSurveyForm"));
-		$this->getView()->setMessage($message);
+		$this->getView()->setMessage($message, "alert-error");
 	}
 
 }

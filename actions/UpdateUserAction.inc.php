@@ -27,7 +27,7 @@ class UpdateUserAction extends Action {
 		}
 		else{
             if ($this->database->updateUser($_SESSION['login'], $_POST['updatePassword'])){
-                $this->setUpdateUserFormView("Mot de passe modifié");
+                $this->setUpdateUserFormView("Mot de passe modifié.", 'alert-success');
             }
 		}
 
@@ -36,7 +36,7 @@ class UpdateUserAction extends Action {
 
 	private function setUpdateUserFormView($message) {
 		$this->setView(getViewByName("UpdateUserForm"));
-		$this->getView()->setMessage($message, "alert-error");
+		$this->getView()->setMessage($message);
 	}
 
 }

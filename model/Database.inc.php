@@ -163,8 +163,6 @@ class Database {
 			$this->connection->exec("INSERT INTO users VALUES ('$nickname', '".md5($password)."')");
 
 		}
-
-
 	  /* TODO END */
 	  return true;
 	}
@@ -245,6 +243,17 @@ class Database {
 		return $this->loadSurveys($req);
         /* TODO END */
 	}
+    /**
+     * Charge l'ensemble des sondages
+	 *
+     * @return array(Survey)|boolean Sondages trouvés par la fonction ou false si une erreur s'est produite.
+     */
+    public function loadSurveysForAll() {
+        /* TODO START */
+        $req = $this->connection->query("SELECT * FROM surveys");
+        return $this->loadAllSurveys($req);
+        /* TODO END */
+    }
 
 	/**
 	 * Charge l'ensemble des sondages dont la question contient un mot clé.
@@ -266,6 +275,7 @@ class Database {
 	 */
 	public function vote($id) {
 		/* TODO START */
+
 		/* TODO END */
 	}
 
@@ -290,6 +300,27 @@ class Database {
 		/* TODO END */
 		return $surveys;
 	}
+    /**
+     * Construit un tableau de sondages à partir d'un tableau de ligne de la table 'surveys'.
+     * Ce tableau a été obtenu à l'aide de la méthode fetchAll() de PDO.
+     *
+     * @param array $arraySurveys Tableau de lignes.
+     * @return array(Survey)|boolean Le tableau de sondages ou false si une erreur s'est produite.
+     */
+    private function loadAllSurveys($arraySurveys) {
+        $surveys = array();
+        /* TODO START */
+        $result=$arraySurveys->fetchAll();
+        foreach ($result as $key => $values){
+            $survey=new Survey($values['owner'], $values['question']);
+            $survey->setId($values['id']);
+            $req=$this->connection->query("SELECT * FROM responses WHERE id_survey=".$values['id']."");
+            $survey->setResponses($this->loadResponses($survey, $req));
+            $surveys[]=$survey;
+        }
+        /* TODO END */
+        return $surveys;
+    }
 
 	/**
 	 * Construit un tableau de réponses à partir d'un tableau de ligne de la table 'responses'.

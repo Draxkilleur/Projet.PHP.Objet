@@ -22,7 +22,7 @@ class LoginAction extends Action {
 		}
 		else{
 			$this->setView(getViewByName("Message"));
-			$this->getView()->setMessage("Pseudonyme ou Mot de passe incorrect");
+			$this->getView()->setMessage("Pseudonyme ou Mot de passe incorrect", "alert-error");
 		}
   	/* TODO END */
 	}

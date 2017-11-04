@@ -39,7 +39,7 @@ class SignUpAction extends Action {
 
 	private function setSignUpFormView($message) {
 		$this->setView(getViewByName("SignUpForm"));
-		$this->getView()->setMessage($message);
+		$this->getView()->setMessage($message, 'alert-error');
 	}
 
 }

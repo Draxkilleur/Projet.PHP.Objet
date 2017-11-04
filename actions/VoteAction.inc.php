@@ -25,11 +25,11 @@ class VoteAction extends Action {
 		$r = $this->database->vote((int)$responseId);
 		
 		if ($r===false) {
-			$this->setMessageView("Impossible d'enregistrer votre vote.", "alert-error");
+			$this->setMessageView("Impossible d'enregistrer votre vote.", 'alert-error');
 			return;
 		}
 		
-		$this->setMessageView("Votre vote a été enregistré.", "alert-success");
+		$this->setMessageView("Votre vote a été enregistré.", 'alert-success');
 	}
 
 }

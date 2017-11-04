@@ -10,7 +10,7 @@
 	<div class="navbar navbar-inverse navbar-fixed-top">
 		<div class="navbar-inner">
 			<div class="container">
-            <center><font color="#CECECE"> Projet PHP r&eacute;alis&eacute; par NOM Pr&eacute;nom  </font></center>
+            <center><font color="#CECECE"> Projet PHP r&eacute;alis&eacute; par CHAUSSE Rudy, FARISSE Sylvain, LAFONTAN Mathias, KALARIS Florian, MILLION Robin  </font></center>
 				<?php $this->displaySearchForm(); ?>
 				<?php 
 					if ($this->login===null) $this->displayLoginForm();
