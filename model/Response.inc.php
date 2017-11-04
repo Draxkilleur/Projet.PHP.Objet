@@ -21,7 +21,7 @@ class Response {
 	public function computePercentage($total) {
 		/* TODO START */
 		if ($total!=0){
-			return (round($this->getCount()/$total)*100);
+			return (round(($this->getCount()/$total)*100));
 		}
 		else{
 			return 0;
