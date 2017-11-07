@@ -1,6 +1,14 @@
 
 <li class="media well">
 	<div class="media-body">
+        <?php
+        if (isset($_SESSION['login'])&& $_SESSION['login'] == $survey -> getOwner()){
+            echo '
+        <a class="btn pull-right" href="'.$_SERVER['PHP_SELF'].'?action=EditSurveysForm&id='.$survey->getId().'"><img src="views/templates/img/edit.png"></a>
+        <a class="btn pull-right" href="'.$_SERVER['PHP_SELF'].'?action=DeleteSurveysForm&id='.$survey->getId().'"><img src="views/templates/img/delete.png"></a>';
+        }
+        ?>
+
 		<h4 class="media-heading"><?php echo $survey->getQuestion() ?></h4>
 		<br>
 	  <?php

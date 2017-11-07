@@ -30,7 +30,9 @@ function getAction() {
             'Search',
 			'Vote',
 			'GetSurveysForm',
-			'GetSurveys');
+			'DeleteSurveys',
+			'EditSurveys',
+        	'EditSurveysForm');
 
 	if (!in_array($action, $actions)) $action = 'Default';
 	return getActionByName($action);

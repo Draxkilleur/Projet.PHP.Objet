@@ -263,7 +263,7 @@ class Database {
 	 */
 	public function loadSurveysByKeyword($keyword) {
 		/* TODO START */
-		$req=$this->connection->query("SELECT * FROM surveys WHERE question='".$keyword."'");
+		$req=$this->connection->query("SELECT * FROM surveys WHERE question LIKE '%".$keyword."%'");
 		return $this->loadSurveys($req);
 		/* TODO END */
 	}
@@ -277,8 +277,7 @@ class Database {
 	 */
 	public function vote($id) {
 		/* TODO START */
-		$this->connection->exec("UPDATE responses
-		SET count = count +1 WHERE id='".$id."'");
+		$this->connection->exec("UPDATE responses SET count = count +1 WHERE id='".$id."'");
 		/* TODO END */
 	}
 
@@ -325,6 +324,41 @@ class Database {
 		return $responses;
 	}
 
-}
+    /**
+	 * Fonction de suppression de sondage par ID de sondage
+     * @param $id
+     * @return bool
+     */
+	public function deleteSurvey($id){
+		$req = "DELETE FROM responses where id_survey=".$id.";";
+        $req .= "DELETE FROM surveys where id=".$id.";";
+        echo $req;
+		$r = $this->connection->prepare($req);
+        if($r->execute())
+        	return true;
+        else
+        	return false;
+	}
 
+    /**
+	 * Fonction de chargement de sondage par ID
+     * @param $id
+     * @return array
+     */
+	public function loadSurveysById($id){
+        $req = $this->connection->query("SELECT * FROM surveys WHERE id=".$id);
+        return $this->loadSurveys($req);
+	}
+
+	public function pushEdit($id){
+		$req2="";
+		$req="UPDATE surveys SET question='".$_POST['questionSurvey']."' WHERE id=".$id.";";
+		$req.="DELETE title FROM responses WHERE id_surveys=".$id.";";
+		for ($i=0; $i<=4; $i++){
+            $req2.="INSERT INTO responses (title) VALUES ('".$_POST['responseSurvey']."');";
+		}
+		echo $req.$req2;
+		$this->connection->exec($req.$req2);
+	}
+}
 ?>
